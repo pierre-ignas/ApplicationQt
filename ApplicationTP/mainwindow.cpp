@@ -12,3 +12,20 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+void MainWindow::on_BoutonQuitter_clicked()
+{
+    qApp -> quit();
+}
+
+void MainWindow::on_PleinEcran_clicked(bool checked)
+{
+    if(checked == true)
+    {
+        showFullScreen();
+    }
+    else
+    {
+        showNormal();
+    }
+}
