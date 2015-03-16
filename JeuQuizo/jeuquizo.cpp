@@ -10,8 +10,8 @@ JeuQuizo::JeuQuizo(QWidget *parent) :
 {
     ui->setupUi(this);
     QPixmap * mon_image = new QPixmap(":/index.jpeg");
-    QGraphicsPixmapItem*mon_item = new QGraphicsPixmapItem(*mon_image);
-    QGraphicsScene*ma_scene = new QGraphicsScene();
+    QGraphicsPixmapItem * mon_item = new QGraphicsPixmapItem(*mon_image);
+    QGraphicsScene * ma_scene = new QGraphicsScene();
     ma_scene -> addItem(mon_item);
     ui->ma_vue->setScene(ma_scene);}
 
