@@ -1,5 +1,8 @@
 <RCC>
     <qresource prefix="/">
         <file>index.jpeg</file>
+        <file>carre.xcf</file>
+        <file>neutre.xcf</file>
+        <file>rond.xcf</file>
     </qresource>
 </RCC>

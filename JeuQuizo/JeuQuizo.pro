@@ -13,9 +13,13 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        jeuquizo.cpp
+        jeuquizo.cpp \
+    piece.cpp \
+    plateau.cpp
 
-HEADERS  += jeuquizo.h
+HEADERS  += jeuquizo.h \
+    piece.h \
+    plateau.h
 
 FORMS    += jeuquizo.ui
 

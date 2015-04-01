@@ -47,11 +47,13 @@ OBJECTS_DIR   = ./
 
 SOURCES       = ../JeuQuizo/main.cpp \
 		../JeuQuizo/jeuquizo.cpp \
-		../JeuQuizo/piece.cpp qrc_images.cpp \
+		../JeuQuizo/piece.cpp \
+		../JeuQuizo/plateau.cpp qrc_images.cpp \
 		moc_jeuquizo.cpp
 OBJECTS       = main.o \
 		jeuquizo.o \
 		piece.o \
+		plateau.o \
 		qrc_images.o \
 		moc_jeuquizo.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
@@ -110,7 +112,8 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
 		../JeuQuizo/JeuQuizo.pro ../JeuQuizo/main.cpp \
 		../JeuQuizo/jeuquizo.cpp \
-		../JeuQuizo/piece.cpp
+		../JeuQuizo/piece.cpp \
+		../JeuQuizo/plateau.cpp
 QMAKE_TARGET  = JeuQuizo
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = JeuQuizo
@@ -269,7 +272,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/JeuQuizo1.0.0 || mkdir -p .tmp/JeuQuizo1.0.0
-	$(COPY_FILE) --parents $(DIST) .tmp/JeuQuizo1.0.0/ && $(COPY_FILE) --parents ../JeuQuizo/images.qrc .tmp/JeuQuizo1.0.0/ && $(COPY_FILE) --parents ../JeuQuizo/jeuquizo.h ../JeuQuizo/piece.h .tmp/JeuQuizo1.0.0/ && $(COPY_FILE) --parents ../JeuQuizo/main.cpp ../JeuQuizo/jeuquizo.cpp ../JeuQuizo/piece.cpp .tmp/JeuQuizo1.0.0/ && $(COPY_FILE) --parents ../JeuQuizo/jeuquizo.ui .tmp/JeuQuizo1.0.0/ && (cd `dirname .tmp/JeuQuizo1.0.0` && $(TAR) JeuQuizo1.0.0.tar JeuQuizo1.0.0 && $(COMPRESS) JeuQuizo1.0.0.tar) && $(MOVE) `dirname .tmp/JeuQuizo1.0.0`/JeuQuizo1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/JeuQuizo1.0.0
+	$(COPY_FILE) --parents $(DIST) .tmp/JeuQuizo1.0.0/ && $(COPY_FILE) --parents ../JeuQuizo/images.qrc .tmp/JeuQuizo1.0.0/ && $(COPY_FILE) --parents ../JeuQuizo/jeuquizo.h ../JeuQuizo/piece.h ../JeuQuizo/plateau.h .tmp/JeuQuizo1.0.0/ && $(COPY_FILE) --parents ../JeuQuizo/main.cpp ../JeuQuizo/jeuquizo.cpp ../JeuQuizo/piece.cpp ../JeuQuizo/plateau.cpp .tmp/JeuQuizo1.0.0/ && $(COPY_FILE) --parents ../JeuQuizo/jeuquizo.ui .tmp/JeuQuizo1.0.0/ && (cd `dirname .tmp/JeuQuizo1.0.0` && $(TAR) JeuQuizo1.0.0.tar JeuQuizo1.0.0 && $(COMPRESS) JeuQuizo1.0.0.tar) && $(MOVE) `dirname .tmp/JeuQuizo1.0.0`/JeuQuizo1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/JeuQuizo1.0.0
 
 
 clean:compiler_clean 
@@ -294,14 +297,17 @@ compiler_rcc_make_all: qrc_images.cpp
 compiler_rcc_clean:
 	-$(DEL_FILE) qrc_images.cpp
 qrc_images.cpp: ../JeuQuizo/images.qrc \
-		../JeuQuizo/index.jpeg
+		../JeuQuizo/rond.xcf \
+		../JeuQuizo/carre.xcf \
+		../JeuQuizo/index.jpeg \
+		../JeuQuizo/neutre.xcf
 	/usr/lib/x86_64-linux-gnu/qt5/bin/rcc -name images ../JeuQuizo/images.qrc -o qrc_images.cpp
 
 compiler_moc_header_make_all: moc_jeuquizo.cpp
 compiler_moc_header_clean:
 	-$(DEL_FILE) moc_jeuquizo.cpp
 moc_jeuquizo.cpp: ../JeuQuizo/jeuquizo.h
-	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/etudiant/quixo/ApplicationQt/JeuQuizo -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/4.9 -I/usr/include/x86_64-linux-gnu/c++/4.9 -I/usr/include/c++/4.9/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../JeuQuizo/jeuquizo.h -o moc_jeuquizo.cpp
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/etudiant/ApplicationQt/JeuQuizo -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/4.9 -I/usr/include/x86_64-linux-gnu/c++/4.9 -I/usr/include/c++/4.9/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../JeuQuizo/jeuquizo.h -o moc_jeuquizo.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -328,8 +334,12 @@ jeuquizo.o: ../JeuQuizo/jeuquizo.cpp ../JeuQuizo/jeuquizo.h \
 		ui_jeuquizo.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o jeuquizo.o ../JeuQuizo/jeuquizo.cpp
 
-piece.o: ../JeuQuizo/piece.cpp ../JeuQuizo/piece.h
+piece.o: ../JeuQuizo/piece.cpp ../JeuQuizo/piece.h \
+		../JeuQuizo/jeuquizo.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o piece.o ../JeuQuizo/piece.cpp
+
+plateau.o: ../JeuQuizo/plateau.cpp ../JeuQuizo/plateau.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o plateau.o ../JeuQuizo/plateau.cpp
 
 qrc_images.o: qrc_images.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_images.o qrc_images.cpp
